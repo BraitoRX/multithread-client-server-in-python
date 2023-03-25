@@ -26,8 +26,8 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
     print(f"[ARCHIVO][HASH][{addr}] {filename} leido")
     conn.sendall(hash_archivo.encode(FORMAT))
     print(f"[ARCHIVO][HASH][{addr}] {filename} enviado")
+    Attended.append(conn)
     conn.close()
-    Attended.append(1)
     
     
 
@@ -47,7 +47,6 @@ def main():
     archivo_transmision = conexion_inicial.recv(SIZE).decode(FORMAT)+".txt"
     print(f"[KING CONNECTION] espera el archivo {archivo_transmision}")
     ALLready = []
-    Attended = []
     
     
     while len(Attended) < cantidad_clientes:
