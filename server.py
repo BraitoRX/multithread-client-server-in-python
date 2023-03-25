@@ -27,8 +27,8 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
     conn.sendall(hash_archivo.encode(FORMAT))
     print(f"[ARCHIVO][HASH][{addr}] {filename} enviado")
 
-    Attended.append(conn)
     conn.close()
+    Attended.append(conn)
     
     
 
@@ -54,6 +54,9 @@ def main():
         thread = threading.Thread(target=handle_client, args=(conn, addr,archivo_transmision,cantidad_clientes))
         thread.start()
         print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+    
+    print("[SERVER] Server is stopping...")
+    server.close()
 
 
 if __name__ == "__main__":
