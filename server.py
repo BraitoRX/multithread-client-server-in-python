@@ -28,7 +28,7 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
     print(f"[ARCHIVO][HASH][{addr}] {filename} enviado")
 
     conn.close()
-    Attended.append(conn)
+    Attended+=1
     
     
 
@@ -47,9 +47,9 @@ def main():
     archivo_transmision = conexion_inicial.recv(SIZE).decode(FORMAT)+".txt"
     print(f"[KING CONNECTION] espera el archivo {archivo_transmision}")
     ALLready = []
-    Attended = []
+    Attended = 0
     
-    while len(Attended) < cantidad_clientes:
+    while Attended < cantidad_clientes:
         conn, addr = server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr,archivo_transmision,cantidad_clientes))
         thread.start()
