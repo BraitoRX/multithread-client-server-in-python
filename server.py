@@ -35,6 +35,7 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
 def main():
     global ALLready
     global Attended
+    Attended = 0
     print("[STARTING] Server is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(ADDR)
@@ -47,7 +48,7 @@ def main():
     archivo_transmision = conexion_inicial.recv(SIZE).decode(FORMAT)+".txt"
     print(f"[KING CONNECTION] espera el archivo {archivo_transmision}")
     ALLready = []
-    Attended = 0
+    
     
     while Attended < cantidad_clientes:
         conn, addr = server.accept()
