@@ -47,6 +47,7 @@ def main():
     archivo_transmision = conexion_inicial.recv(SIZE).decode(FORMAT)+".txt"
     print(f"[KING CONNECTION] espera el archivo {archivo_transmision}")
     ALLready = []
+    Attended = []
     
     
     while len(Attended) < cantidad_clientes:
