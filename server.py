@@ -11,7 +11,6 @@ FORMAT = "utf-8"
 DISCONNECT_MSG = "!DISCONNECT"
 
 def handle_client(conn:socket, addr,filename,cantidad_clientes):
-    global Attended
     print(f"[NEW CONNECTION] {addr} connected.")
     listo = conn.recv(SIZE).decode(FORMAT)
     print(f"[READY][{addr}] {listo}")
@@ -27,16 +26,15 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
     print(f"[ARCHIVO][HASH][{addr}] {filename} leido")
     conn.sendall(hash_archivo.encode(FORMAT))
     print(f"[ARCHIVO][HASH][{addr}] {filename} enviado")
-
     conn.close()
-    Attended+=1
+    Attended.append(1)
     
     
 
 def main():
     global ALLready
     global Attended
-    Attended = 0
+    
     print("[STARTING] Server is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(ADDR)
@@ -49,10 +47,11 @@ def main():
     archivo_transmision = conexion_inicial.recv(SIZE).decode(FORMAT)+".txt"
     print(f"[KING CONNECTION] espera el archivo {archivo_transmision}")
     ALLready = []
+    Attended = []
     
     
-    while Attended < cantidad_clientes:
-        print(Attended)
+    while len(Attended) < cantidad_clientes:
+        print(len(Attended))
         conn, addr = server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr,archivo_transmision,cantidad_clientes))
         thread.start()
