@@ -26,7 +26,7 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
     print(f"[ARCHIVO][HASH][{addr}] {filename} leido")
     conn.sendall(hash_archivo.encode(FORMAT))
     print(f"[ARCHIVO][HASH][{addr}] {filename} enviado")
-    Attended.append(conn)
+    Attended.append(1)
     conn.close()
     
     
