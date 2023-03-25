@@ -52,6 +52,7 @@ def main():
     
     
     while Attended < cantidad_clientes:
+        print(Attended)
         conn, addr = server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr,archivo_transmision,cantidad_clientes))
         thread.start()
