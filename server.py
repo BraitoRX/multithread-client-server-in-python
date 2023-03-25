@@ -11,6 +11,7 @@ FORMAT = "utf-8"
 DISCONNECT_MSG = "!DISCONNECT"
 
 def handle_client(conn:socket, addr,filename,cantidad_clientes):
+    global Attended
     print(f"[NEW CONNECTION] {addr} connected.")
     listo = conn.recv(SIZE).decode(FORMAT)
     print(f"[READY][{addr}] {listo}")
