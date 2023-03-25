@@ -26,6 +26,8 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
     print(f"[ARCHIVO][HASH][{addr}] {filename} leido")
     conn.sendall(hash_archivo.encode(FORMAT))
     print(f"[ARCHIVO][HASH][{addr}] {filename} enviado")
+
+    Attended.append(conn)
     conn.close()
     
     
@@ -47,7 +49,7 @@ def main():
     ALLready = []
     Attended = []
     
-    while True:
+    while len(Attended) < cantidad_clientes:
         conn, addr = server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr,archivo_transmision,cantidad_clientes))
         thread.start()
