@@ -79,7 +79,7 @@ def main():
     if not os.path.exists('Logs'):
         os.makedirs('Logs')
     f= open('Logs/'+time.strftime("%Y-%m-%d-%H-%M-%S")+'-log.txt', 'w') 
-    f.write(f"Archivo: {archivo_transmision} Tamaño: {os.path.getsize(archivo_transmision)} bytes\n")
+    f.write(f"Archivo: {archivo_transmision} Tamaño: {filesize} bytes\n")
     f.write(f"Clientes: {num_clients}\n")
     f.write(f"Tiempo de transferencia: \n")
 
