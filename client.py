@@ -25,9 +25,12 @@ def receive_messages(client_socket,filename,filesize):
         while offset < int(filesize):
             # Leer el archivo en bloques de 1024 bytes
             data = client_socket.recv(SIZE)
+            if data == "FIN".encode(FORMAT):
+                break
             # Enviar el bloque al cliente
             f.write(data)
             offset += len(data)
+    
     print(f"[CLIENT] Archivo recibido")
 
     archivo = open('received_files/' + filename+".txt", "r")

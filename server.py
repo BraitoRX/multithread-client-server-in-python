@@ -38,10 +38,10 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
             conn.sendall(data)
             offset += len(data) 
 
+    conn.sendall("FIN".encode(FORMAT))
+
 
     print(f"[ARCHIVO][{addr}] {filename} enviado")
-    
-
     hash_archivo = hashlib.md5(archivo.read().encode()).hexdigest()
     print(f"[ARCHIVO][HASH][{addr}] {filename} leido")
     conn.sendall(hash_archivo.encode(FORMAT))
