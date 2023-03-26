@@ -38,8 +38,6 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
             conn.sendall(data)
             offset += len(data) 
 
-    fin_msg = "FIN"
-    conn.sendall(fin_msg.encode(FORMAT))
 
     print(f"[ARCHIVO][{addr}] {filename} enviado")
     
@@ -66,7 +64,9 @@ def main():
     print(f"[KING CONNECTION] se esperan {cantidad_clientes} clientes")
     archivo_transmision = conexion_inicial.recv(SIZE).decode(FORMAT)+".txt"
     print(f"[KING CONNECTION] espera el archivo {archivo_transmision}")
+    conexion_inicial.sendall(str(os.path.getsize(archivo_transmision)).encode(FORMAT))
     ALLready = []
+
     
     
     for i in range(cantidad_clientes):

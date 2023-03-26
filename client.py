@@ -11,7 +11,7 @@ FORMAT = "utf-8"
 DISCONNECT_MSG = "!DISCONNECT"
 hash_incorrecto=0
 
-def receive_messages(client_socket,filename):
+def receive_messages(client_socket,filename,filesize):
     print(f"[CLIENT] Waiting for messages...")
     client_socket.sendall("READY".encode(FORMAT))
     print(f"[CLIENT] ENVIO DE READY")
@@ -21,11 +21,14 @@ def receive_messages(client_socket,filename):
         os.makedirs('received_files')
 
     with open('received_files/' + filename+".txt", 'wb') as f:
-        while True:
+        offset = 0
+        while offset < int(filesize):
+            # Leer el archivo en bloques de 1024 bytes
             data = client_socket.recv(SIZE)
-            if not data:  # verifica si se ha recibido toda la información del cliente
-                break
+            # Enviar el bloque al cliente
             f.write(data)
+            offset += len(data)
+    print(f"[CLIENT] Archivo recibido")
 
     archivo = open('received_files/' + filename+".txt", "r")
     HASH = client_socket.recv(SIZE).decode(FORMAT)
@@ -57,6 +60,9 @@ def main():
     print(f"[KING CLIENT] se espera el archivo {archivo_transmision}")
     archivo_transmision = archivo_transmision.encode(FORMAT)
     client_socket.sendall(archivo_transmision)
+    print(f"[KING CLIENT] se envio el nombre del archivo {archivo_transmision}")
+    filesize = client_socket.recv(SIZE).decode(FORMAT)
+    print(f"[KING CLIENT] se recibio el tamaño del archivo {filesize}")
 
     for i in range(num_clients):
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -67,7 +73,7 @@ def main():
     # Recepción de mensajes
     threads = []
     for i in range(num_clients):
-        thread = threading.Thread(target=receive_messages, args=(client_sockets[i],archivo_transmision.decode(FORMAT)))
+        thread = threading.Thread(target=receive_messages, args=(client_sockets[i],archivo_transmision.decode(FORMAT),filesize))
         threads.append(thread)
         thread.start()
     for thread in threads:
