@@ -60,6 +60,8 @@ def main():
     
     print("[SERVER] Server is stopping...")
     server.close()
+    server.shutdown(socket.SHUT_RDWR)
+    print("[SERVER] Server stopped.")
 
 
 if __name__ == "__main__":
