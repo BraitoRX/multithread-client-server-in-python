@@ -26,14 +26,12 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
     print(f"[ARCHIVO][HASH][{addr}] {filename} leido")
     conn.sendall(hash_archivo.encode(FORMAT))
     print(f"[ARCHIVO][HASH][{addr}] {filename} enviado")
-    Attended.append(1)
     conn.close()
     
     
 
 def main():
     global ALLready
-    global Attended
     
     print("[STARTING] Server is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,15 +45,18 @@ def main():
     archivo_transmision = conexion_inicial.recv(SIZE).decode(FORMAT)+".txt"
     print(f"[KING CONNECTION] espera el archivo {archivo_transmision}")
     ALLready = []
-    Attended = []
     
     
-    while len(Attended) < cantidad_clientes:
-        print(len(Attended))
+    for i in range(cantidad_clientes):
         conn, addr = server.accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr,archivo_transmision,cantidad_clientes))
         thread.start()
         print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+
+    while True:
+        command = input("[SERVER] Enter command: ")
+        if command == DISCONNECT_MSG:
+            break
     
     print("[SERVER] Server is stopping...")
     server.close()
