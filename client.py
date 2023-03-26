@@ -8,7 +8,7 @@ PORT = 5566
 ADDR = (IP, PORT)
 SIZE = 1024
 FORMAT = "utf-8"
-DISCONNECT_MSG = "!DISCONNECT"
+DISCONNECT_MSG = "!END"
 hash_incorrecto=0
 
 def receive_messages(client_socket,filename,filesize):
@@ -28,7 +28,7 @@ def receive_messages(client_socket,filename,filesize):
             # Enviar el bloque al cliente
             f.write(data)
             offset += len(data)
-            
+
     client_socket.sendall("FIN".encode(FORMAT))
             
     

@@ -10,7 +10,7 @@ PORT = 5566
 ADDR = (IP, PORT)
 SIZE = 1024
 FORMAT = "utf-8"
-DISCONNECT_MSG = "!DISCONNECT"
+DISCONNECT_MSG = "!END"
 
 def handle_client(conn:socket, addr,filename,cantidad_clientes):
     print(f"[NEW CONNECTION] {addr} connected.")
