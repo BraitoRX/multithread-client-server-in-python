@@ -2,8 +2,10 @@ import socket
 import threading
 import wikipedia
 import hashlib
+import os
 
 IP = "192.168.20.57"
+# IP = socket.gethostbyname(socket.gethostname())
 PORT = 5566
 ADDR = (IP, PORT)
 SIZE = 1024
@@ -20,8 +22,28 @@ def handle_client(conn:socket, addr,filename,cantidad_clientes):
         print(f"[READY][{addr}] Esperando a que todos los clientes esten listos")
         pass
 
+    
+
     archivo = open(filename, "r")
+    tamaño = os.path.getsize(filename)
     print(f"[ARCHIVO][{addr}] {filename} abierto")
+    # enviar el archivo por bloques de 1024 bytes
+
+    with open(filename, 'rb') as f:
+        offset = 0
+        while offset < tamaño:
+            # Leer el archivo en bloques de 1024 bytes
+            data = f.read(SIZE)
+            # Enviar el bloque al cliente
+            conn.sendall(data)
+            offset += len(data) 
+
+    fin_msg = "FIN"
+    conn.sendall(fin_msg.encode(FORMAT))
+
+    print(f"[ARCHIVO][{addr}] {filename} enviado")
+    
+
     hash_archivo = hashlib.md5(archivo.read().encode()).hexdigest()
     print(f"[ARCHIVO][HASH][{addr}] {filename} leido")
     conn.sendall(hash_archivo.encode(FORMAT))
@@ -60,7 +82,6 @@ def main():
     
     print("[SERVER] Server is stopping...")
     server.close()
-    server.shutdown(socket.SHUT_RDWR)
     print("[SERVER] Server stopped.")
 
 
