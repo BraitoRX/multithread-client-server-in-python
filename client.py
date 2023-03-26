@@ -23,8 +23,7 @@ def receive_messages(client_socket,filename):
     with open('received_files/' + filename+".txt", 'wb') as f:
         while True:
             data = client_socket.recv(SIZE)
-            if data == b'FIN':
-                print(f"[CLIENT] Archivo recibido")
+            if not data:  # verifica si se ha recibido toda la información del cliente
                 break
             f.write(data)
 
