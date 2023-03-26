@@ -78,7 +78,7 @@ def main():
         os.makedirs('Logs')
 
     f= open('Logs/'+time.strftime("%Y-%m-%d-%H-%M-%S")+'-log.txt', 'w') 
-    f.write(f"Archivo: {archivo_transmision} Tamaño: {os.path.getsize(archivo_transmision)}\n")
+    f.write(f"Archivo: {archivo_transmision} Tamaño: {os.path.getsize(archivo_transmision)} bytes\n")
     f.write(f"Clientes: {cantidad_clientes}\n")
     f.write(f"Tiempo de transferencia: \n")
     for i in range(cantidad_clientes):
