@@ -4,7 +4,7 @@ import hashlib
 import os
 import time 
 
-IP = "192.168.20.57"
+IP = "192.168.1.22"
 # IP = socket.gethostbyname(socket.gethostname())
 PORT = 5566
 ADDR = (IP, PORT)
@@ -64,7 +64,7 @@ def main():
     print("[STARTING] Server is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(ADDR)
-    server.listen()
+    server.listen(25)
     print(f"[LISTENING] Server is listening on {IP}:{PORT}")
     conexion_inicial, addr = server.accept()
     print(f"[KING CONNECTION] {addr} connected.")
